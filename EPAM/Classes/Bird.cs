@@ -21,10 +21,17 @@ namespace EPAM.Classes
             //Set new Speed each time method is called
             UpdateSpeed();
 
-            //distance between current and new position
-            //convert km to m
-            double distance = GetDistance(coordinate) * 1000;
-            
+            //To maintain high accuracy we convert the distance to M in the beginig
+            //However it is not optimizated and may require to much time for calculation
+
+            //double distance = GetDistance(coordinate) * 1000;
+
+            //Thats why I devide the distance to the five parts and multiply seconds to 5, to reduce the calculation time
+            //It is optimal choice, if we will take more accuracy will decrece 
+
+            //For 13488 km difference is 1 sec between previously discribed approaches
+
+            double distance = GetDistance(coordinate) * 200;
             int seconds = 0;
             double passedDistance = 0;
 
@@ -32,7 +39,7 @@ namespace EPAM.Classes
                 seconds++;
                 passedDistance += Speed;
             }
-            return TimeSpan.FromSeconds(seconds);
+            return TimeSpan.FromSeconds(5*seconds);
         }
         private void UpdateSpeed()
         { 

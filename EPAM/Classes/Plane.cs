@@ -10,35 +10,42 @@ namespace EPAM.Classes
         public override Coordinate CurrentPosition { get; set; } = new Coordinate { X = 0, Y = 0, Z = 0 };
         
         //Speed is in km/h format 
-        public double Speed { get; private set; } = 200;
+        public double SpeedKm { get; private set; } = 200;
 
-        //Acceleration is in km/h^2 format 
-        public double Acceleration { get; private set; } = 10;
+        public double SpeedBoostKm { get; private set; } = 10;
+        public double DistanceKm { get; private set; } = 10;
+
 
         public void FlyTo(Coordinate coordinate)
         {
             CurrentPosition = coordinate;
         }
-        public Plane(double speed, double acceleration)
-        {
-            Speed = speed;
-            Acceleration = acceleration;
-        }
         public TimeSpan GetFlyTime(Coordinate coordinate)
         {
-            //distance between current and new position
-            //convert km to m
-            double distance = GetDistance(coordinate) * 1000;
-
-            int minutes = 0;
-            double passedDistance = 0;
-
-            while (passedDistance < distance)
+            double distance = GetDistance(coordinate)*1000;
+            //passedDistance in m
+            double passedDistance;
+            double boostDistance = 0;
+            double speedM = SpeedKmToMConverter(SpeedKm);
+            double speedBoostM = SpeedKmToMConverter(SpeedBoostKm);
+            double distanceM = DistanceKm * 1000;
+            int seconds = 0;
+            for (passedDistance = 0; passedDistance < distance; passedDistance+= speedM, boostDistance += speedM)
             {
-                minutes++;
-                passedDistance += Speed;
+                seconds++;
+                double boostCheck = Math.Ceiling(boostDistance) % distanceM;
+                if ((boostCheck < boostDistance || boostCheck == 0) && passedDistance != 0)
+                {
+                    speedM += speedBoostM;
+                    boostDistance = 0;
+                }
             }
-            return TimeSpan.FromSeconds(minutes);
+            return TimeSpan.FromSeconds(seconds);
+        }
+
+        private double SpeedKmToMConverter(double val)
+        {
+            return val * 5 / 18;
         }
     }
 }
