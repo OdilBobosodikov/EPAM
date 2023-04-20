@@ -26,33 +26,22 @@ namespace EPAM.Classes
 
         public void FlyTo(Coordinate coordinate)
         {
-            CurrentPosition = coordinate;
-        }
-        public void Recharge()
-        {
-           Battery = 100;
-        }
-
-        public TimeSpan GetFlyTime(Coordinate coordinate)
-        {
-            if(Battery == 0)
-            {
+            if (Battery == 0){
                 Console.WriteLine("No charge left");
-                return TimeSpan.Zero;
             }
-            //Convert to km
             double distance = GetDistance(coordinate) * 1000;
             double speedM = SpeedKmToMConverter(SpeedKm);
             double distancePassed;
             double seconds = 0;
-            for(distancePassed = 0; distancePassed < distance; distancePassed += speedM)
+            for (distancePassed = 0; distancePassed < distance; distancePassed += speedM)
             {
-                if(Battery <= 0)
+                if (Battery <= 0)
                 {
                     Battery = 0;
                     Coordinate c = UpdateCoordinates(coordinate, distance, distancePassed);
+                    Console.WriteLine("Your drone's battery ran out of the energy");
                     PrintPosition(c);
-                    return TimeSpan.FromSeconds(seconds);
+                    return;
                 }
                 if (seconds % (TimeBeforeStop) == 0 && seconds != 0)
                 {
@@ -65,11 +54,33 @@ namespace EPAM.Classes
                     seconds++;
                 }
             }
+                CurrentPosition = coordinate;
+        }
+        public void Recharge(){
+           Battery = 100;
+        }
+
+        public TimeSpan GetFlyTime(Coordinate coordinate)
+        {
+            double distance = GetDistance(coordinate) * 1000;
+            double speedM = SpeedKmToMConverter(SpeedKm);
+            double distancePassed;
+            double seconds = 0;
+            for(distancePassed = 0; distancePassed < distance; distancePassed += speedM)
+            {
+                if (seconds % (TimeBeforeStop) == 0 && seconds != 0){
+                    seconds += TimeToStop;
+                }
+                else{
+                    seconds++;
+                }
+            }
             return TimeSpan.FromSeconds(seconds);
         }
+
         public void PrintPosition(Coordinate c)
         {
-            Console.WriteLine($"Your drone lended on ({c.X},{c.Y},{c.Z}) position\n");
+            Console.WriteLine($"Your drone lended on {c} position\n");
         }
         private double SpeedKmToMConverter(double val)
         {
@@ -77,6 +88,7 @@ namespace EPAM.Classes
         }
         private void UpdateBattery(double speed,double timeSpan = 1)
         {
+            //Random formula to steadly decrease battery
             Battery -= timeSpan * (speed * 0.001) / 2;
         }
         private Coordinate UpdateCoordinates(Coordinate newCoordinate, double distance, double distancePassed)
@@ -87,9 +99,9 @@ namespace EPAM.Classes
 
             Coordinate V3 = new Coordinate(CurrentPosition.X + s*(newCoordinate.X-CurrentPosition.X),
                 CurrentPosition.Y + s * (newCoordinate.Y - CurrentPosition.Y),
-                CurrentPosition.Z + s * (newCoordinate.Z - CurrentPosition.Z)); 
-          
-            FlyTo(V3);
+                CurrentPosition.Z + s * (newCoordinate.Z - CurrentPosition.Z));
+
+            CurrentPosition = V3;
             return V3;
         }
     }

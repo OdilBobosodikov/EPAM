@@ -44,7 +44,8 @@ namespace EPAM.Classes
         private void UpdateSpeed()
         { 
             Random rand = new Random();
-            Speed = rand.NextDouble() * 20; 
+            Speed = Math.Round(rand.NextDouble() * 20, 3); 
         }
+
     }
 }
