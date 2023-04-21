@@ -66,7 +66,7 @@ namespace EPAM
 
                             Console.WriteLine($"Drone will fly {Math.Round(drone.GetDistance(newCoordinates))} km distance\n" +
                                 $"Under {droneFlyTime.Days} days {droneFlyTime.Hours} hours {droneFlyTime.Minutes} minutes {droneFlyTime.Seconds} seconds\n" +
-                                $"With {drone.SpeedKm}km/h speed and {drone.Battery}% energy\n");
+                                $"With {drone.SpeedKm}km/h speed and {Math.Round(drone.Battery, 2)}% energy\n");
 
                             Console.Write("Do You want to set this position to plane? ");
 
@@ -91,12 +91,18 @@ namespace EPAM
 
             while(!coordinatesTaken)
             {
-                Console.WriteLine("Input X Y Z Coordinates: ");
-                if (double.TryParse(Console.ReadLine(), out double X) && X > 0 &&
-                    double.TryParse(Console.ReadLine(), out double Y) && Y > 0 &&
-                    double.TryParse(Console.ReadLine(), out double Z) && Z > 0)
+                Console.WriteLine("Input X: ");
+                if (double.TryParse(Console.ReadLine(), out double X) && X > 0)
                 {
-                    return new Coordinate(X, Y, Z);
+                    Console.WriteLine("Input Y: ");
+                    if (double.TryParse(Console.ReadLine(), out double Y) && Y > 0)
+                    {
+                        Console.WriteLine("Input Z: ");
+                        if (double.TryParse(Console.ReadLine(), out double Z) && Z > 0)
+                        {
+                            return new Coordinate(X, Y, Z);
+                        }
+                    }
                 } 
             }
             return new Coordinate();

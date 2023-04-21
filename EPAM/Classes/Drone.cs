@@ -28,6 +28,7 @@ namespace EPAM.Classes
             double speedM = SpeedKmToMConverter(SpeedKm);
             double distancePassed;
             for (distancePassed = 0; distancePassed < distance; distancePassed += speedM){
+                //We are checking the battary status to stop program on time and set new coordinates
                 if (Battery <= 0){
                     Battery = 0;
                     Coordinate c = UpdateCoordinates(coordinate, distance, distancePassed);
@@ -69,10 +70,10 @@ namespace EPAM.Classes
         {
             return val * 5 / 18;
         }
-        private void UpdateBattery(double speed,double timeSpan = 1)
+        private void UpdateBattery(double speed)
         {
             //Random formula to steadly decrease battery
-            Battery -= timeSpan * (speed * 0.001) / 2;
+            Battery -= speed * 0.001 / 2;
         }
         private Coordinate UpdateCoordinates(Coordinate newCoordinate, double distance, double distancePassed)
         {
