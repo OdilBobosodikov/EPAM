@@ -14,7 +14,7 @@ namespace EPAM.Strctures
 
         public override string ToString()
         {
-            return $"X: {X}, Y:{Y}, Z:{Z}";
+            return $"({X} : {Y} : {Z})";
         }
     }
 }

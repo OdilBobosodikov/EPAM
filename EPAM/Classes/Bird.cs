@@ -27,7 +27,7 @@ namespace EPAM.Classes
             //double distance = GetDistance(coordinate) * 1000;
 
             //Thats why I devide the distance to the five parts and multiply seconds to 5, to reduce the calculation time
-            //It is optimal choice, if we will take more accuracy will decrece 
+            //It is optimal choice, if we will take more, accuracy will decrece 
 
             //For 13488 km difference is 1 sec between previously discribed approaches
 

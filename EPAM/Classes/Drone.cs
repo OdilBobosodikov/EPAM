@@ -1,11 +1,5 @@
 ﻿using EPAM.Interfaces;
 using EPAM.Strctures;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPAM.Classes
 {
@@ -28,33 +22,22 @@ namespace EPAM.Classes
         {
             if (Battery == 0){
                 Console.WriteLine("No charge left");
+                return;
             }
             double distance = GetDistance(coordinate) * 1000;
             double speedM = SpeedKmToMConverter(SpeedKm);
             double distancePassed;
-            double seconds = 0;
-            for (distancePassed = 0; distancePassed < distance; distancePassed += speedM)
-            {
-                if (Battery <= 0)
-                {
+            for (distancePassed = 0; distancePassed < distance; distancePassed += speedM){
+                if (Battery <= 0){
                     Battery = 0;
                     Coordinate c = UpdateCoordinates(coordinate, distance, distancePassed);
                     Console.WriteLine("Your drone's battery ran out of the energy");
                     PrintPosition(c);
                     return;
                 }
-                if (seconds % (TimeBeforeStop) == 0 && seconds != 0)
-                {
-                    seconds += TimeToStop;
-                    UpdateBattery(speedM, TimeToStop);
-                }
-                else
-                {
-                    UpdateBattery(speedM);
-                    seconds++;
-                }
+                UpdateBattery(speedM);
             }
-                CurrentPosition = coordinate;
+            CurrentPosition = coordinate;
         }
         public void Recharge(){
            Battery = 100;
@@ -62,7 +45,7 @@ namespace EPAM.Classes
 
         public TimeSpan GetFlyTime(Coordinate coordinate)
         {
-            double distance = GetDistance(coordinate) * 1000;
+            double distance = GetDistance(coordinate) * 200;
             double speedM = SpeedKmToMConverter(SpeedKm);
             double distancePassed;
             double seconds = 0;
@@ -75,7 +58,7 @@ namespace EPAM.Classes
                     seconds++;
                 }
             }
-            return TimeSpan.FromSeconds(seconds);
+            return TimeSpan.FromSeconds(5*seconds);
         }
 
         public void PrintPosition(Coordinate c)
@@ -97,9 +80,9 @@ namespace EPAM.Classes
 
             double s = distancePassed / distance;
 
-            Coordinate V3 = new Coordinate(CurrentPosition.X + s*(newCoordinate.X-CurrentPosition.X),
-                CurrentPosition.Y + s * (newCoordinate.Y - CurrentPosition.Y),
-                CurrentPosition.Z + s * (newCoordinate.Z - CurrentPosition.Z));
+            Coordinate V3 = new Coordinate(Math.Round(CurrentPosition.X + s * (newCoordinate.X - CurrentPosition.X),3),
+                Math.Round(CurrentPosition.Y + s * (newCoordinate.Y - CurrentPosition.Y), 3),
+                Math.Round(CurrentPosition.Z + s * (newCoordinate.Z - CurrentPosition.Z), 3));
 
             CurrentPosition = V3;
             return V3;

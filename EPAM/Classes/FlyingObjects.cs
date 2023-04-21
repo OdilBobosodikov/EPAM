@@ -6,7 +6,6 @@ namespace EPAM.Classes
     {
         public abstract Coordinate CurrentPosition { get; set; }
 
-
         //To make proper calculations we should consider unit of the destance same for all cases
         //So the distance will be in km format
         public double GetDistance(Coordinate NewPosition)
