@@ -7,8 +7,7 @@ namespace EPAM
     {
         static void Main(string[] args)
         {
-            //menu to demonstrate functionality of the program
-            
+            //Menu to demonstrate functionality of the program
             bool programStopped = false;
             Coordinate newCoordinates;
             Bird bird = new Bird();
@@ -38,7 +37,8 @@ namespace EPAM
                             
                             Console.Write("Do You want to set this position to bird? ");
                             
-                            if(Console.ReadLine().ToLower().Equals("yes")){
+                            if(Console.ReadLine().ToLower().Equals("yes"))
+                            {
                                 bird.FlyTo(newCoordinates);
                             }
                             break;
@@ -54,7 +54,8 @@ namespace EPAM
                             
                             Console.Write("Do You want to set this position to plane? ");
                             
-                            if (Console.ReadLine().ToLower().Equals("yes")){
+                            if (Console.ReadLine().ToLower().Equals("yes"))
+                            {
                                 plane.FlyTo(newCoordinates);
                             }
                             break;
@@ -70,7 +71,8 @@ namespace EPAM
 
                             Console.Write("Do You want to set this position to plane? ");
 
-                            if (Console.ReadLine().ToLower().Equals("yes")){
+                            if (Console.ReadLine().ToLower().Equals("yes"))
+                            {
                                 drone.FlyTo(newCoordinates);
                             }
                             break;
@@ -85,6 +87,7 @@ namespace EPAM
             Console.WriteLine("Bye");
         }
 
+        //Method to take new coordinates from user
         public static Coordinate TakeCoordinates()
         {
             bool coordinatesTaken = false;
@@ -92,13 +95,13 @@ namespace EPAM
             while(!coordinatesTaken)
             {
                 Console.WriteLine("Input X: ");
-                if (double.TryParse(Console.ReadLine(), out double X) && X > 0)
+                if(double.TryParse(Console.ReadLine(), out double X) && X > 0)
                 {
                     Console.WriteLine("Input Y: ");
-                    if (double.TryParse(Console.ReadLine(), out double Y) && Y > 0)
+                    if(double.TryParse(Console.ReadLine(), out double Y) && Y > 0)
                     {
                         Console.WriteLine("Input Z: ");
-                        if (double.TryParse(Console.ReadLine(), out double Z) && Z > 0)
+                        if(double.TryParse(Console.ReadLine(), out double Z) && Z > 0)
                         {
                             return new Coordinate(X, Y, Z);
                         }

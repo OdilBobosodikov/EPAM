@@ -5,31 +5,36 @@ namespace EPAM.Classes
 {
     internal class Drone : FlyingObjects, IFlyable
     {
-        public override Coordinate CurrentPosition { get; set; } = new Coordinate { X = 0, Y = 0, Z = 0 };
-        public double SpeedKm { get; set; } = 150;
+        /// <summary>
+        /// Additional restrictions
+        /// Drone has a battery with a paricular amount of energy
+        /// If battary is 0, drone stops the flight and lends on the particular position\
+        /// To update battery value use Recharge method
+        /// </summary>
 
-        //additional restrictions
-        //drone has a battery amount of battary
-        //if battary is 0, drone stops the flight
-        public double Battery { get; set; } = 100;
-        
-        //bothe properties in sec
-        public double TimeToStop { get; set; } = 60;
-        public double TimeBeforeStop { get; set; } = 600;
-        
+        internal override Coordinate CurrentPosition { get; set; } = new Coordinate { X = 0, Y = 0, Z = 0 };
+        internal double SpeedKm { get; set; } = 150;
+        internal double Battery { get; set; } = 100;
+
+        //Both properties in sec
+        internal double TimeToStop { get; set; } = 60;
+        internal double TimeBeforeStop { get; set; } = 600;
 
         public void FlyTo(Coordinate coordinate)
         {
-            if (Battery == 0){
+            if (Battery == 0)
+            {
                 Console.WriteLine("No charge left");
                 return;
             }
             double distance = GetDistance(coordinate) * 1000;
             double speedM = SpeedKmToMConverter(SpeedKm);
             double distancePassed;
-            for (distancePassed = 0; distancePassed < distance; distancePassed += speedM){
+            for (distancePassed = 0; distancePassed < distance; distancePassed += speedM)
+            {
                 //We are checking the battary status to stop program on time and set new coordinates
-                if (Battery <= 0){
+                if (Battery <= 0)
+                {
                     Battery = 0;
                     Coordinate c = UpdateCoordinates(coordinate, distance, distancePassed);
                     Console.WriteLine("Your drone's battery ran out of the energy");
@@ -40,8 +45,10 @@ namespace EPAM.Classes
             }
             CurrentPosition = coordinate;
         }
-        public void Recharge(){
-           Battery = 100;
+
+        internal void Recharge(double energy = 100)
+        {
+           Battery = energy;
         }
 
         public TimeSpan GetFlyTime(Coordinate coordinate)
@@ -52,32 +59,32 @@ namespace EPAM.Classes
             double seconds = 0;
             for(distancePassed = 0; distancePassed < distance; distancePassed += speedM)
             {
-                if (seconds % (TimeBeforeStop) == 0 && seconds != 0){
+                if (seconds % (TimeBeforeStop) == 0 && seconds != 0)
+                {
                     seconds += TimeToStop;
                 }
-                else{
+                else
+                {
                     seconds++;
                 }
             }
             return TimeSpan.FromSeconds(5*seconds);
         }
 
-        public void PrintPosition(Coordinate c)
+        private void PrintPosition(Coordinate c)
         {
             Console.WriteLine($"Your drone lended on {c} position\n");
         }
-        private double SpeedKmToMConverter(double val)
-        {
-            return val * 5 / 18;
-        }
+
         private void UpdateBattery(double speed)
         {
             //Random formula to steadly decrease battery
             Battery -= speed * 0.001 / 2;
         }
+
         private Coordinate UpdateCoordinates(Coordinate newCoordinate, double distance, double distancePassed)
         {
-            //formula: https://math.stackexchange.com/questions/1735994/position-of-point-between-2-points-in-3d-space
+            //Formula: https://math.stackexchange.com/questions/1735994/position-of-point-between-2-points-in-3d-space
 
             double s = distancePassed / distance;
 

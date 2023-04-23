@@ -4,7 +4,7 @@ namespace EPAM.Interfaces
 {
     internal interface IFlyable
     {
-        public void FlyTo(Coordinate coordinate);
-        public TimeSpan GetFlyTime(Coordinate coordinate);
+        internal void FlyTo(Coordinate coordinate);
+        internal TimeSpan GetFlyTime(Coordinate coordinate);
     }
 }

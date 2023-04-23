@@ -1,15 +1,14 @@
 ﻿using EPAM.Interfaces;
 using EPAM.Strctures;
-using System.Data;
 
 namespace EPAM.Classes
 {
     internal class Bird : FlyingObjects, IFlyable
     {
-        public override Coordinate CurrentPosition { get; set; } = new Coordinate { X = 0, Y = 0, Z = 0 };
-        
+        internal override Coordinate CurrentPosition { get; set; } = new Coordinate { X = 0, Y = 0, Z = 0 };
+
         //Speed is in m/s formate
-        public double Speed { get; private set; }
+        internal double Speed { get; private set; }
 
         public void FlyTo(Coordinate coordinate)
         {
@@ -35,11 +34,12 @@ namespace EPAM.Classes
             int seconds = 0;
             double passedDistance = 0;
 
-            while(passedDistance < distance){
+            while(passedDistance < distance)
+            {
                 seconds++;
                 passedDistance += Speed;
             }
-            return TimeSpan.FromSeconds(5*seconds);
+            return TimeSpan.FromSeconds(5 * seconds);
         }
         private void UpdateSpeed()
         { 
