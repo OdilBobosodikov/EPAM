@@ -10,16 +10,14 @@ namespace EPAM.Classes.Vehicles
     }
     internal class Scooter : Vehicle
     {
-        //Unique properties
-        public ScooterFuel Fuel { get; private set; }
-        public double MaxSpeed { get; private set; }
+        //Requested unique properties
+        internal ScooterFuel Fuel { get; private set; }
+        internal double MaxSpeed { get; private set; }
 
-        public Scooter(Chassis chassis, Engine engine, Transmission transmission) : base(chassis, engine, transmission)
-        {
+        internal Scooter(Chassis chassis, Engine engine, Transmission transmission) : base(chassis, engine, transmission)
+        {}
 
-        }
-
-        public void SetScooterProperties(ScooterFuel fuel, double speed)
+        internal void SetScooterProperties(ScooterFuel fuel, double speed)
         {
             Fuel = fuel;
             MaxSpeed = speed;

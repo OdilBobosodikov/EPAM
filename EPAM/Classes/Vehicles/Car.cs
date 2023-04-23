@@ -13,16 +13,15 @@ namespace EPAM.Classes.Vehicles
 
     internal class Car : Vehicle
     {
-        //Unique properties
-        public bool HasCruiseControl { get; private set; } = false;
-        public CarTypes Type { get; private set; }
-        public byte Seats { get; private set; }
+        //Requested unique properties
+        internal bool HasCruiseControl { get; private set; } = false;
+        internal CarTypes Type { get; private set; }
+        internal byte Seats { get; private set; }
 
-        public Car(Chassis chassis, Engine engine, Transmission transmission) : base(chassis, engine, transmission)
-        {
-        }
+        internal Car(Chassis chassis, Engine engine, Transmission transmission) : base(chassis, engine, transmission)
+        {}
 
-        public void SetCarTypes(CarTypes type, bool hasCruiseControl, byte numberOfSeats)
+        internal void SetCarProperties(CarTypes type, bool hasCruiseControl, byte numberOfSeats)
         {
             Type = type;
             HasCruiseControl = hasCruiseControl;

@@ -2,14 +2,12 @@
 {
     internal class Chassis
     {
-        //fields wheels, id, loadCapacity
-        //No information is given about methods for this class
-        public short Wheels { get; private set; }
-        public double TireWidth { get; private set; }
-        public int LoadCapacity { get; private set; }
+        internal short Wheels { get; private set; }
+        internal double TireWidth { get; private set; }
+        internal int LoadCapacity { get; private set; }
 
 
-        public Chassis(short wheels, double tireWidth, int loadCapacity)
+        internal Chassis(short wheels, double tireWidth, int loadCapacity)
         {
             Wheels = wheels;
             TireWidth = tireWidth;

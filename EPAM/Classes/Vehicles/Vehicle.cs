@@ -2,12 +2,12 @@
 
 namespace EPAM.Classes.Vehicles
 {
-    internal class Vehicle
-    { 
+    internal abstract class Vehicle
+    {
         //Common properties
-        public Chassis Chassis { get; private set; }
-        public Engine Engine { get; private set; }
-        public Transmission Transmission { get; private set; }
+        internal Chassis Chassis { get; private set; }
+        internal Engine Engine { get; private set; }
+        internal Transmission Transmission { get; private set; }
 
         //Checks if se set unique properties for child classes
         protected bool SetUniqueProperties = false;

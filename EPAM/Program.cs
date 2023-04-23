@@ -17,7 +17,7 @@ namespace EPAM
                 new Engine(200, 2.55, "MHEV", 66315),
                 new Transmission("Manual", "Pro Shift", 6));
 
-            car.SetCarTypes(CarTypes.Universal, true, 5);
+            car.SetCarProperties(CarTypes.Universal, true, 5);
 
             Scooter scooter = new Scooter(new Chassis(3, 10, 500),
                 new Engine(80, 3.1, "ICE", 54315),

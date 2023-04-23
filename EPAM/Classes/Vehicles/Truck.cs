@@ -4,15 +4,14 @@ namespace EPAM.Classes.Vehicles
 {
     internal class Truck : Vehicle
     {
-        //Unique properties
-        public string Cargo { get; private set; }
-        public double TrunkVolume { get; private set; }
+        //Requested unique properties
+        internal string Cargo { get; private set; }
+        internal double TrunkVolume { get; private set; }
 
-        public Truck(Chassis chassis, Engine engine, Transmission transmission) : base(chassis, engine, transmission)
-        {
-        }
+        internal Truck(Chassis chassis, Engine engine, Transmission transmission) : base(chassis, engine, transmission)
+        {}
 
-        public void SetTruckProperties(string cargo, double trunkVolume)
+        internal void SetTruckProperties(string cargo, double trunkVolume)
         {
             Cargo = cargo;
             TrunkVolume = trunkVolume;
