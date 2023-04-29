@@ -18,24 +18,15 @@ namespace EPAM.Classes.Vehicles
         internal CarTypes Type { get; private set; }
         internal byte Seats { get; private set; }
 
-        internal Car(Chassis chassis, Engine engine, Transmission transmission) : base(chassis, engine, transmission)
-        {}
-
-        internal void SetCarProperties(CarTypes type, bool hasCruiseControl, byte numberOfSeats)
+        internal Car(Chassis chassis, Engine engine, Transmission transmission, CarTypes type, bool hasCruiseControl, byte numberOfSeats) : base(chassis, engine, transmission)
         {
             Type = type;
             HasCruiseControl = hasCruiseControl;
             Seats = numberOfSeats;
-            SetUniqueProperties = true;
         }
 
         public override string ToString()
         {
-
-            if (!SetUniqueProperties)
-            {
-                return $"Unique Car properties have not set yet\n" + base.ToString();
-            }
             return $"Unique Car properties: Type - {Type}, Has cruise control - {HasCruiseControl.ToString()}, Seats - {Seats}\n" + base.ToString();
         }
     }

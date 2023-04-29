@@ -14,22 +14,16 @@ namespace EPAM.Classes.Vehicles
         internal ScooterFuel Fuel { get; private set; }
         internal double MaxSpeed { get; private set; }
 
-        internal Scooter(Chassis chassis, Engine engine, Transmission transmission) : base(chassis, engine, transmission)
-        {}
-
-        internal void SetScooterProperties(ScooterFuel fuel, double speed)
+        internal Scooter(Chassis chassis, Engine engine, Transmission transmission, ScooterFuel fuel, double speed) : base(chassis, engine, transmission)
         {
             Fuel = fuel;
             MaxSpeed = speed;
-            SetUniqueProperties = true;
         }
+
+
 
         public override string ToString()
         {
-            if (!SetUniqueProperties)
-            {
-                return $"Unique Scooter properties have not set yet\n" + base.ToString();
-            }
             return $"Unique Scooter properties: Scooter fuel - {Fuel}, Maximum speed - {MaxSpeed}\n" + base.ToString();
         }
     }
