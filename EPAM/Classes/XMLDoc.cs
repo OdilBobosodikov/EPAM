@@ -1,6 +1,9 @@
 ﻿using EPAM.Classes.Vehicle_Parts;
 using EPAM.Classes.Vehicles;
 using System.Xml.Linq;
+using EPAM.Classes.Exceptions;
+using System.Reflection;
+
 
 namespace EPAM.Classes
 {
@@ -138,18 +141,37 @@ namespace EPAM.Classes
         }
 
 
-
-        private static XElement XMLCarElement(Car car)
+        /// <summary>
+        /// We are creating XML element for each car seperatly.
+        /// Here we throw Add exception when Car has null fields.
+        /// </summary>
+        /// <param name="car"></param>
+        /// <returns></returns>
+        private static XElement? XMLCarElement(Car car)
         {
             XElement vehic = new XElement("car");
-            XElement carSeats = new XElement("seats", car.Seats);
-            XElement carCruiseControl = new XElement("cruise-control", car.HasCruiseControl.ToString());
-            XElement generalInfo = XMLGeneralElements(car);
-            XAttribute carType = new XAttribute("car-type", car.CarType);
+            try
+            {
+                if (!CarValidation(car))
+                    throw new AddException(car);
 
-            vehic.Add(carType, carSeats, carCruiseControl, generalInfo);
-            return vehic;
+                XElement carSeats = new XElement("seats", car.Seats);
+                XElement carCruiseControl = new XElement("cruise-control", car.HasCruiseControl.ToString());
+                XElement carModel = new XElement("model", car.Model);
+                XElement generalInfo = XMLGeneralElements(car);
+                XAttribute carType = new XAttribute("car-type", car.CarType);
+
+                vehic.Add(carType, carSeats, carModel, carCruiseControl, generalInfo);
+                return vehic;
+            }
+            catch (AddException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return null;
         }
+
+
         private static XElement XMLBusElement(Bus bus)
         {
             XElement vehic = new XElement("bus");
@@ -249,5 +271,98 @@ namespace EPAM.Classes
             return transmition;
         }
 
+        /// <summary>
+        /// This method is used to find a specific property by name and value.
+        /// It will throw GetAutoByParameterException when property does not exists
+        /// or there are no objects, that have provided value.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="GetAutoByParameterException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>        
+        internal Car? GetAutoByParameter(string parameter, string value)
+        {
+                PropertyInfo? property = typeof(Car).GetProperty(parameter);
+                if (property == null)
+                    throw new GetAutoByParameterException();
+
+                var cars = VehicleList.Where(v => v.GetType().Equals(typeof(Car))).Cast<Car>().ToList();
+                if (cars.Count == 0)
+                    throw new InvalidOperationException("List count is zero. Cannot perform operation.");
+
+            Car? car = cars.FirstOrDefault(x => property.GetValue(x)?.ToString() == value);
+                
+                if (car == null)
+                    throw new GetAutoByParameterException(property.Name.ToString(), value);
+
+                return car;
+        }
+        /// <summary>
+        /// Updates object in the list.
+        /// Throws UpdateAutoException when "newCar" object has null fields.
+        /// </summary>
+        /// <param name="newCar"></param>
+        /// <param name="property"></param>
+        /// <param name="value"></param>
+        internal void UpdateAuto(Car newCar, string property, string value)
+        {
+            Car? car = GetAutoByParameter(property, value);
+
+            //UpdateAutoException
+            //newCar.Model = null;
+
+            if (!CarValidation(newCar))
+                throw new UpdateAutoException();
+
+            car.Engine = newCar.Engine;
+            car.Transmission = newCar.Transmission;
+            car.Chassis = newCar.Chassis;
+            car.HasCruiseControl = newCar.HasCruiseControl;
+            car.CarType = newCar.CarType;
+            car.Seats = newCar.Seats;
+            car.Model = newCar.Model;
+
+            //All Exceptions regurding finding element in collection is handeled by getAutoByParameter.
+            //For case when we will try to attempt to replace a car with identifier (ID)
+            //As it is mentioned in task, getAutoByParameterException will trigger.
+            
+        }
+
+        /// <summary>
+        /// Removes Car from the list.
+        /// Throws RemoveAutoException when there is no element in the list to delete.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="value"></param>
+        internal void RemoveAuto(string property, string value)
+        {
+            int listLen = VehicleList.Count;
+            Car? car = GetAutoByParameter(property, value);
+            VehicleList = VehicleList.Where(x => x != car).ToList();
+
+            if (VehicleList.Count == listLen)
+                throw new RemoveAutoException();
+        }
+        internal void ShowVehicles()
+        {
+            foreach (var item in VehicleList)
+            {
+                Console.WriteLine(item + "\n\n");
+            }
+        }
+        private static bool CarValidation(Car car)
+        {
+            var properties = car.GetType().GetProperties();
+            foreach (var prop in properties)
+            {
+                var value = prop.GetValue(car);
+                if (value == null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

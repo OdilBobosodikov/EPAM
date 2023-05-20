@@ -5,9 +5,9 @@ namespace EPAM.Classes.Vehicles
     internal abstract class Vehicle
     {
         //Common properties
-        internal Chassis Chassis { get; private set; }
-        internal Engine Engine { get; private set; }
-        internal Transmission Transmission { get; private set; }
+        internal Chassis Chassis { get; set; }
+        internal Engine Engine { get;  set; }
+        internal Transmission Transmission { get; set; }
 
         protected Vehicle(Chassis chassis, Engine engine, Transmission transmission)
         {
