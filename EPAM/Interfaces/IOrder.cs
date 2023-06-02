@@ -4,6 +4,6 @@ namespace EPAM.Interfaces
 {
     internal interface IOrder
     {
-       internal void Execute(List<CarSuply> cars);
+       internal void Execute(CarCollection carCollection);
     }
 }

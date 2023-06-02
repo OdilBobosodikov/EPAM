@@ -6,7 +6,7 @@ namespace EPAM.Classes
     {
         public List<CarSuply> Cars = new List<CarSuply>();
         private static CarCollection? instance;
-
+        public string BrandName { get; private set; }
         private IOrder? Command;
 
         private CarCollection(){}
@@ -20,22 +20,25 @@ namespace EPAM.Classes
             return instance;
         }
 
-        public void SetCommand(IOrder command)
+        public void SetCommand(IOrder command, string? brandName = null)
         {
+            if (brandName != null)
+            {
+                BrandName = brandName;
+            }
             Command = command;
         }
 
-        public void AddCar(CarSuply car)
+        public void AddCarSuply(CarSuply car)
         {
             Cars.Add(car);
         }
 
         public void CommandPerferm()
         {
-            if(Command is IOrder && Command != null)
+            if(Command is IOrder)
             {
-                Command.Execute(Cars);
-                Command = null;
+                Command.Execute(this);
             }
         }
     }

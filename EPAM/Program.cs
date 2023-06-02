@@ -1,4 +1,6 @@
 ﻿using EPAM.Classes;
+using EPAM.Classes.Commands;
+using EPAM.Interfaces;
 
 namespace EPAM
 {
@@ -6,75 +8,89 @@ namespace EPAM
     {
         static void Main(string[] args)
         {
-            int chose;
-            CarSuply suply;
+            bool isReadyToTakeCommands = false;
+            CarSuply carSuply;
             while (true)
             {
                 try
                 {
                     CarCollection cars = CarCollection.Instance();
-                    suply = CreateCarSuplyObject();
-                    cars.AddCar(suply);
-
-                    Console.Write("Would you like to add more car supplies? (type anything for yes) - ");
-                    
-                    if (Console.ReadLine() == "")
+                    if (!isReadyToTakeCommands)
                     {
-                        Console.WriteLine("What operation you want?");
-                        Console.WriteLine("1 for CountTypes");
-                        Console.Write("-- ");
-                        chose = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter car suply properties (brand, model, quantity, unit price):");
+                        string[] userInput = Console.ReadLine().Split(' ');
 
-                        if(chose < 0 || chose > 4)
+                        if (userInput.Length != 4)
                         {
-                            throw new FormatException();
+                            Console.WriteLine("Please input 4 fields.\n");
+                            continue;
                         }
 
-                        if (chose == 1)
+                        string brand = userInput[0].Trim();
+                        string model = userInput[1].Trim();
+                        int quantity = int.Parse(userInput[2].Trim());
+                        decimal price = decimal.Parse(userInput[3].Trim());
+
+                        carSuply = new CarSuply()
+                        {
+                            Brand = brand,
+                            CarModel = model,
+                            Quantity = quantity,
+                            PricePerItem = price
+                        };
+
+                        cars.AddCarSuply(carSuply);
+                    }
+
+                    isReadyToTakeCommands = isReadyToTakeCommands == false ? EnoughCars() : true;
+                    if (isReadyToTakeCommands)
+                    {
+                        Console.Write("Choose command. Available commands are: \ncount types, count all, average price, average price type, exit - ");
+                        string command = Console.ReadLine().Trim();
+
+                        if (command.Trim().Equals("count types"))
                         {
                             cars.SetCommand(new CountTypesCommand());
-                            cars.CommandPerferm();
-                        }                        
+                        }
+                        else if (command.Trim().Equals("count all"))
+                        {
+                            cars.SetCommand(new CountAllCommand());
+                        }
+                        else if (command.Trim().Equals("average price"))
+                        {
+                            cars.SetCommand(new AveragePriceCommand());
+                        }
+                        else if (command.Trim().StartsWith("average price"))
+                        {
+                            string brandName = command.Split(' ')[2];
+                            cars.SetCommand(new AveragePriceTypeCommand(), brandName);
+                        }
+                        else if (command.Trim().Equals("exit"))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("There is no such a command.\n");
+                            continue;
+                        }
+                        cars.CommandPerferm();
                     }
                 }
-                catch (FormatException ex)
+                catch (FormatException)
                 {
                     Console.WriteLine("Wrond input! Try again.\n");
                 }
-                catch (ArgumentException ex)
-                {
-                    Console.WriteLine("Please choose commands from the list\n\n");
-                }
             }
         }
-        public static CarSuply CreateCarSuplyObject()
+        internal static bool EnoughCars()
         {
-
-            Console.Write("Please input manufacturing company - ");
-            string companyName = Console.ReadLine();
-
-            Validate(companyName);
-
-            Console.Write("Please input car model - ");
-            string model = Console.ReadLine();
-
-            Validate(model);
-
-            Console.Write("Please input quantity of cars - ");
-            int quantity = int.Parse(Console.ReadLine());
-            
-            Console.Write("Please input price per item - ");
-            double price = double.Parse(Console.ReadLine());
-
-            return new CarSuply(companyName, model, quantity, price);
-        }
-        
-        private static void Validate(string value) 
-        {
-            if(String.IsNullOrEmpty(value))
+            Console.Write("Would you like to stop adding car supplies? (type anything for yes) - ");
+            if (String.IsNullOrEmpty(Console.ReadLine()))
             {
-                throw new FormatException();
+                return false;
             }
+            return true;
         }
     }
 }
