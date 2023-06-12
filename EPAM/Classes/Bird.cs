@@ -1,5 +1,5 @@
 ﻿using EPAM.Interfaces;
-using EPAM.Strctures;
+using EPAM.Structures;
 
 namespace EPAM.Classes
 {
@@ -41,6 +41,7 @@ namespace EPAM.Classes
             }
             return TimeSpan.FromSeconds(5 * seconds);
         }
+
         private void UpdateSpeed()
         { 
             Random rand = new Random();

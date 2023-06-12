@@ -1,5 +1,5 @@
 ﻿using EPAM.Classes;
-using EPAM.Strctures;
+using EPAM.Structures;
 
 namespace EPAM
 {
@@ -14,22 +14,23 @@ namespace EPAM
             Plane plane = new Plane();
             Drone drone = new Drone();
 
-            do {
+            while (!programStopped)
+            {
                 Console.WriteLine("Which flying object you would like to choose: ");
                 Console.WriteLine("1 for bird");
                 Console.WriteLine("2 for palne");
                 Console.WriteLine("3 for drone");
                 Console.WriteLine("4 to exit");
                 Console.Write("- ");
-                if(int.TryParse(Console.ReadLine(), out int ch) && ch > 0 && ch < 5)
+                if(int.TryParse(Console.ReadLine(), out int choices) && choices > 0 && choices < 5)
                 {
-                    switch (ch)
+                    switch (choices)
                     {
                         case 1:
                             newCoordinates = TakeCoordinates();
                             TimeSpan birdFlyTime = bird.GetFlyTime(newCoordinates);
 
-                            Console.WriteLine($"bird initial position is " + bird.CurrentPosition);
+                            Console.WriteLine($"bird initial position is {bird.CurrentPosition}");
 
                             Console.WriteLine($"Bird will fly {Math.Round(bird.GetDistance(newCoordinates))} km distance\n" +
                             $"Under {birdFlyTime.Days} days {birdFlyTime.Hours} hours {birdFlyTime.Minutes} minutes {birdFlyTime.Seconds} seconds\n" +
@@ -46,7 +47,7 @@ namespace EPAM
                             newCoordinates = TakeCoordinates();
                             TimeSpan palneFlyTime = plane.GetFlyTime(newCoordinates);
 
-                            Console.WriteLine($"plane initial position is " + plane.CurrentPosition);
+                            Console.WriteLine($"plane initial position is {plane.CurrentPosition}");
 
                             Console.WriteLine($"Plane will fly {Math.Round(plane.GetDistance(newCoordinates))} km distance\n" +
                                 $"Under {palneFlyTime.Days} days {palneFlyTime.Hours} hours {palneFlyTime.Minutes} minutes {palneFlyTime.Seconds} seconds\n" +
@@ -63,13 +64,13 @@ namespace EPAM
                             newCoordinates = TakeCoordinates();
                             TimeSpan droneFlyTime = drone.GetFlyTime(newCoordinates);
 
-                            Console.WriteLine($"drone initial position is " + drone.CurrentPosition);
+                            Console.WriteLine($"drone initial position is {drone.CurrentPosition}");
 
                             Console.WriteLine($"Drone will fly {Math.Round(drone.GetDistance(newCoordinates))} km distance\n" +
                                 $"Under {droneFlyTime.Days} days {droneFlyTime.Hours} hours {droneFlyTime.Minutes} minutes {droneFlyTime.Seconds} seconds\n" +
                                 $"With {drone.SpeedKm}km/h speed and {Math.Round(drone.Battery, 2)}% energy\n");
 
-                            Console.Write("Do You want to set this position to plane? ");
+                            Console.Write("Do You want to set this position to drone? ");
 
                             if (Console.ReadLine().ToLower().Equals("yes"))
                             {
@@ -82,7 +83,7 @@ namespace EPAM
                     }
                 }
                 
-            } while (!programStopped);
+            }
 
             Console.WriteLine("Bye");
         }

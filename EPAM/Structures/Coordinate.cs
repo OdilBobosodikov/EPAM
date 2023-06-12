@@ -1,5 +1,4 @@
-﻿
-namespace EPAM.Strctures
+﻿namespace EPAM.Structures
 {
     internal struct Coordinate
     {
@@ -9,8 +8,21 @@ namespace EPAM.Strctures
 
         public Coordinate(double x, double y, double z)
         {
+            HasNegativeNumber(x, y, z);
             X = x; Y = y; Z = z;
         }
+
+        private static void HasNegativeNumber(params double[] coordinates)
+        {
+            foreach (var coordinate in coordinates)
+            {
+                if(coordinate < 0)
+                {
+                    throw new ArgumentException();
+                }
+            }
+        }
+
 
         public override string ToString()
         {

@@ -1,4 +1,4 @@
-﻿using EPAM.Strctures;
+﻿using EPAM.Structures;
 
 namespace EPAM.Interfaces
 {

@@ -1,5 +1,5 @@
 ﻿using EPAM.Interfaces;
-using EPAM.Strctures;
+using EPAM.Structures;
 
 namespace EPAM.Classes
 {
@@ -36,9 +36,9 @@ namespace EPAM.Classes
                 if (Battery <= 0)
                 {
                     Battery = 0;
-                    Coordinate c = UpdateCoordinates(coordinate, distance, distancePassed);
+                    UpdateCoordinates(coordinate, distance, distancePassed);
                     Console.WriteLine("Your drone's battery ran out of the energy");
-                    PrintPosition(c);
+                    PrintPosition();
                     return;
                 }
                 UpdateBattery(speedM);
@@ -71,9 +71,9 @@ namespace EPAM.Classes
             return TimeSpan.FromSeconds(5*seconds);
         }
 
-        private void PrintPosition(Coordinate c)
+        private void PrintPosition()
         {
-            Console.WriteLine($"Your drone lended on {c} position\n");
+            Console.WriteLine($"Your drone lended on {CurrentPosition} position\n");
         }
 
         private void UpdateBattery(double speed)
@@ -82,7 +82,7 @@ namespace EPAM.Classes
             Battery -= speed * 0.001 / 2;
         }
 
-        private Coordinate UpdateCoordinates(Coordinate newCoordinate, double distance, double distancePassed)
+        private void UpdateCoordinates(Coordinate newCoordinate, double distance, double distancePassed)
         {
             //Formula: https://math.stackexchange.com/questions/1735994/position-of-point-between-2-points-in-3d-space
 
@@ -93,7 +93,6 @@ namespace EPAM.Classes
                 Math.Round(CurrentPosition.Z + s * (newCoordinate.Z - CurrentPosition.Z), 3));
 
             CurrentPosition = V3;
-            return V3;
         }
     }
 }
