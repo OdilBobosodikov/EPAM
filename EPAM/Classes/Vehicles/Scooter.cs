@@ -1,4 +1,4 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 
 namespace EPAM.Classes.Vehicles
 {
@@ -19,6 +19,10 @@ namespace EPAM.Classes.Vehicles
 
         internal void SetScooterProperties(ScooterFuel fuel, double speed)
         {
+            if(speed < 0)
+            {
+                throw new ArgumentException();
+            }
             Fuel = fuel;
             MaxSpeed = speed;
             SetUniqueProperties = true;

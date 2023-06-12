@@ -1,4 +1,4 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 
 namespace EPAM.Classes.Vehicles
 {
@@ -11,7 +11,7 @@ namespace EPAM.Classes.Vehicles
     }
     internal class Bus : Vehicle
     {
-        //Requested unique properties
+
         internal int MaximumPeopleCapacity { get; private set; }
         internal int Number { get; private set; }
         internal double Fare { get; private set; }
@@ -26,11 +26,27 @@ namespace EPAM.Classes.Vehicles
                 double fare,
                 BusType busType)
         {
+            if (HasnegativeValue(peopleCapacity, number, fare))
+            {
+                throw new ArgumentException();
+            }
             MaximumPeopleCapacity = peopleCapacity;
             Number = number;
             Fare = fare;
             BusType = busType;
             SetUniqueProperties = true;
+        }
+
+        private bool HasnegativeValue(params double[] val)
+        {
+            foreach (double i in val)
+            {
+                if (i < 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public override string ToString()

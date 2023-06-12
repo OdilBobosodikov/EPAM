@@ -1,4 +1,4 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 
 namespace EPAM.Classes.Vehicles
 {
@@ -11,6 +11,7 @@ namespace EPAM.Classes.Vehicles
 
         //Checks if se set unique properties for child classes
         protected bool SetUniqueProperties = false;
+
         protected Vehicle(Chassis chassis, Engine engine, Transmission transmission)
         {
             Chassis = chassis;

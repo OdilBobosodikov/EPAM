@@ -1,4 +1,4 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 
 namespace EPAM.Classes.Vehicles
 {
@@ -13,6 +13,10 @@ namespace EPAM.Classes.Vehicles
 
         internal void SetTruckProperties(string cargo, double trunkVolume)
         {
+            if(string.IsNullOrEmpty(cargo) || TrunkVolume < 0)
+            {
+                throw new ArgumentException();
+            }
             Cargo = cargo;
             TrunkVolume = trunkVolume;
             SetUniqueProperties = true;
