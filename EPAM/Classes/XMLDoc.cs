@@ -1,4 +1,4 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 using EPAM.Classes.Vehicles;
 using System.Xml.Linq;
 using EPAM.Classes.Exceptions;
@@ -73,6 +73,7 @@ namespace EPAM.Classes
                 .Select(v =>
                     new {
                         v.Engine.Power,
+                        v.Engine.Volume,
                         v.Engine.Type,
                         v.Engine.SerialNumber
                     }).ToList();
@@ -140,7 +141,6 @@ namespace EPAM.Classes
             xdoc.Save("VehiclesGroupedByGears.xml");
         }
 
-
         /// <summary>
         /// We are creating XML element for each car seperatly.
         /// Here we throw Add exception when Car has null fields.
@@ -153,7 +153,9 @@ namespace EPAM.Classes
             try
             {
                 if (!CarValidation(car))
-                    throw new AddException(car);
+                {
+                    throw new AddException();
+                }
 
                 XElement carSeats = new XElement("seats", car.Seats);
                 XElement carCruiseControl = new XElement("cruise-control", car.HasCruiseControl.ToString());
@@ -170,7 +172,6 @@ namespace EPAM.Classes
             }
             return null;
         }
-
 
         private static XElement XMLBusElement(Bus bus)
         {
@@ -235,6 +236,7 @@ namespace EPAM.Classes
 
             return engine;
         }
+
         private static XElement XMLEngineElement(double power, EngineTypes type, int serialNum)
         {
             XElement engine = new XElement("engine");
@@ -247,6 +249,7 @@ namespace EPAM.Classes
 
             return engine;
         }
+
         private static XElement XMLChassisElement(Vehicle vehicle)
         {
             XElement chassis = new XElement("chassis");
@@ -258,6 +261,7 @@ namespace EPAM.Classes
 
             return chassis;
         }
+
         private static XElement XMLTransmitionElement(Vehicle vehicle)
         {
             XElement transmition = new XElement("transmition");
@@ -283,21 +287,28 @@ namespace EPAM.Classes
         /// <exception cref="ArgumentNullException"></exception>        
         internal Car? GetAutoByParameter(string parameter, string value)
         {
-                PropertyInfo? property = typeof(Car).GetProperty(parameter);
-                if (property == null)
-                    throw new GetAutoByParameterException();
+            PropertyInfo? property = typeof(Car).GetProperty(parameter);
+            if (property == null)
+            {
+                throw new GetAutoByParameterException();
+            }
 
-                var cars = VehicleList.Where(v => v.GetType().Equals(typeof(Car))).Cast<Car>().ToList();
-                if (cars.Count == 0)
-                    throw new InvalidOperationException("List count is zero. Cannot perform operation.");
+            var cars = VehicleList.Where(v => v.GetType().Equals(typeof(Car))).Cast<Car>().ToList();
+            if (cars.Count == 0)
+            {
+                throw new InvalidOperationException("List count is zero. Cannot perform operation.");
+            }
 
             Car? car = cars.FirstOrDefault(x => property.GetValue(x)?.ToString() == value);
                 
-                if (car == null)
-                    throw new GetAutoByParameterException(property.Name.ToString(), value);
+            if (car == null)
+            {
+                throw new GetAutoByParameterException(property.Name.ToString(), value);
+            }
 
-                return car;
+            return car;
         }
+
         /// <summary>
         /// Updates object in the list.
         /// Throws UpdateAutoException when "newCar" object has null fields.
@@ -313,7 +324,9 @@ namespace EPAM.Classes
             //newCar.Model = null;
 
             if (!CarValidation(newCar))
+            {
                 throw new UpdateAutoException();
+            }
 
             car.Engine = newCar.Engine;
             car.Transmission = newCar.Transmission;
@@ -342,8 +355,11 @@ namespace EPAM.Classes
             VehicleList = VehicleList.Where(x => x != car).ToList();
 
             if (VehicleList.Count == listLen)
+            {
                 throw new RemoveAutoException();
+            }
         }
+
         internal void ShowVehicles()
         {
             foreach (var item in VehicleList)

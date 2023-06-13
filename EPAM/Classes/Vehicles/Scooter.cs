@@ -1,26 +1,24 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 
 namespace EPAM.Classes.Vehicles
 {
-    internal enum ScooterFuel
-    {
-        LPG,
-        CNG,
-        HICE
-    }
+
     internal class Scooter : Vehicle
     {
         //Requested unique properties
-        internal ScooterFuel Fuel { get; private set; }
+        internal ScooterFuelTypes Fuel { get; private set; }
         internal double MaxSpeed { get; private set; }
 
-        internal Scooter(Chassis chassis, Engine engine, Transmission transmission, ScooterFuel fuel, double speed) : base(chassis, engine, transmission)
+        internal Scooter(Chassis chassis, Engine engine, Transmission transmission, ScooterFuelTypes fuel, double speed) : base(chassis, engine, transmission)
         {
+            if (speed < 0)
+            {
+                throw new ArgumentException();
+            }
+
             Fuel = fuel;
             MaxSpeed = speed;
         }
-
-
 
         public override string ToString()
         {

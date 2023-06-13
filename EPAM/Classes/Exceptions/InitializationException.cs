@@ -1,6 +1,4 @@
-﻿using EPAM.Classes.Vehicles;
-
-namespace EPAM.Classes.Exceptions 
+﻿namespace EPAM.Classes.Exceptions 
 {
     internal class InitializationException : Exception
     {

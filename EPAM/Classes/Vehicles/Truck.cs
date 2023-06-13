@@ -1,4 +1,4 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 
 namespace EPAM.Classes.Vehicles
 {
@@ -10,6 +10,10 @@ namespace EPAM.Classes.Vehicles
 
         internal Truck(Chassis chassis, Engine engine, Transmission transmission, string cargo, double trunkVolume) : base(chassis, engine, transmission)
         {
+            if (string.IsNullOrEmpty(cargo) || trunkVolume < 0)
+            {
+                throw new ArgumentException();
+            }
             Cargo = cargo;
             TrunkVolume = trunkVolume;
         }

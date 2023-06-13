@@ -1,19 +1,13 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 using EPAM.Classes.Exceptions;
+
 namespace EPAM.Classes.Vehicles
 {
-    internal enum CarTypes
-    {
-        NotSelected,
-        SportCar,
-        SuperCar,
-        Universal,
-        Cabriolet,
-        Crossover
-    }
-
     internal class Car : Vehicle
     {
+        private readonly short maxSeats = 8;
+        private readonly short minSeats = 2;
+
         public bool HasCruiseControl { get; set; } = false;
         public CarTypes CarType { get;  set; } = CarTypes.NotSelected;
         public byte Seats { get;  set; }
@@ -26,24 +20,19 @@ namespace EPAM.Classes.Vehicles
                 bool hasCruiseControl,
                 byte numberOfSeats, string model) : base(chassis, engine, transmission)
         {
+            if (numberOfSeats > maxSeats || numberOfSeats < minSeats || string.IsNullOrEmpty(model))
+            {
+                throw new InitializationException();
+            }
+
             CarType = type;
             HasCruiseControl = hasCruiseControl;
             Seats = numberOfSeats;
             Model = model;
-
-            var properties = this.GetType().GetProperties().ToList();
-            
-            foreach (var prop in properties)
-            {
-                if(prop.GetValue(this) == null)
-                {
-                    throw new InitializationException();
-                }
-            }
         }
         public override string ToString()
         {
-            return $"Unique Car properties: Model - {Model}, Type - {CarType}, Has cruise control - {HasCruiseControl.ToString()}, Seats - {Seats}\n" + base.ToString();
+            return $"Unique Car properties: Model - {Model}, Type - {CarType}, Has cruise control - {HasCruiseControl}, Seats - {Seats}\n" + base.ToString();
         }
     }
 }

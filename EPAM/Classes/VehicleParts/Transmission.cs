@@ -1,12 +1,5 @@
-﻿namespace EPAM.Classes.Vehicle_Parts
+﻿namespace EPAM.Classes.VehicleParts
 {
-
-    internal enum TransmissionTypes
-    {
-        Manual,
-        Automatic,
-        CVT
-    }
     internal class Transmission
     {
         internal TransmissionTypes Type { get; private set; }
