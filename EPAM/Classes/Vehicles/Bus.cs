@@ -2,20 +2,14 @@
 
 namespace EPAM.Classes.Vehicles
 {
-    internal enum BusType
-    {
-        School,
-        Mini,
-        Electric,
-        Transit
-    }
+
     internal class Bus : Vehicle
     {
 
         internal int MaximumPeopleCapacity { get; private set; }
         internal int Number { get; private set; }
         internal double Fare { get; private set; }
-        internal BusType BusType { get; private set; }
+        internal BusTypes BusType { get; private set; }
 
 
         internal Bus(Chassis chassis, Engine engine, Transmission transmission) : base(chassis, engine, transmission)
@@ -24,7 +18,7 @@ namespace EPAM.Classes.Vehicles
         internal void SetBusProperties(int peopleCapacity,
                 int number,
                 double fare,
-                BusType busType)
+                BusTypes busType)
         {
             if (HasnegativeValue(peopleCapacity, number, fare))
             {

@@ -9,7 +9,7 @@ namespace EPAM.Classes.Vehicles
         internal Engine Engine { get; private set; }
         internal Transmission Transmission { get; private set; }
 
-        //Checks if se set unique properties for child classes
+        //Checks if user set unique properties for child classes
         protected bool SetUniqueProperties = false;
 
         protected Vehicle(Chassis chassis, Engine engine, Transmission transmission)
