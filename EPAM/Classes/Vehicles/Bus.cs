@@ -1,29 +1,38 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 
 namespace EPAM.Classes.Vehicles
 {
-    internal enum BusType
-    {
-        School,
-        Mini,
-        Electric,
-        Transit
-    }
     internal class Bus : Vehicle
     {
         //Requested unique properties
         internal int MaximumPeopleCapacity { get; private set; }
         internal int Number { get; private set; }
         internal double Fare { get; private set; }
-        internal BusType BusType { get; private set; }
+        internal BusTypes BusType { get; private set; }
 
 
-        internal Bus(Chassis chassis, Engine engine, Transmission transmission, int peopleCapacity, int number, double fare, BusType busType) : base(chassis, engine, transmission)
+        internal Bus(Chassis chassis, Engine engine, Transmission transmission, int peopleCapacity, int number, double fare, BusTypes busType) : base(chassis, engine, transmission)
         {
+            if(HasNegativeNumber(peopleCapacity, number, fare))
+            {
+                throw new ArgumentException();
+            }
             MaximumPeopleCapacity = peopleCapacity;
             Number = number;
             Fare = fare;
             BusType = busType;
+        }
+
+        private bool HasNegativeNumber(params double[] values)
+        {
+            foreach (double num in values)
+            {
+                if(num < 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public override string ToString()

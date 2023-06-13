@@ -1,4 +1,4 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 
 namespace EPAM.Classes.Vehicles
 {

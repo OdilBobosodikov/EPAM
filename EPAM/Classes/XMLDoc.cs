@@ -1,4 +1,4 @@
-﻿using EPAM.Classes.Vehicle_Parts;
+﻿using EPAM.Classes.VehicleParts;
 using EPAM.Classes.Vehicles;
 using System.Xml.Linq;
 
@@ -70,6 +70,7 @@ namespace EPAM.Classes
                 .Select(v =>
                     new {
                         v.Engine.Power,
+                        v.Engine.Volume,
                         v.Engine.Type,
                         v.Engine.SerialNumber
                     }).ToList();
