@@ -7,7 +7,7 @@ namespace SubstringTest
     public class SubstringWithUniqueElements
     {
         #region All Types of chars
-        [TestMethod]
+        [DataTestMethod]
         [TestCategory("All Types of chars")]
         [Description("Test not null values for substring with general elements")]
         [DataRow("abc1 23!@#", "23!@#")]
@@ -25,7 +25,7 @@ namespace SubstringTest
             Assert.AreEqual(expectedOutput, receivedOutput);
         }
 
-        [TestMethod]
+        [DataTestMethod]
         [TestCategory("All Types of chars")]
         [Description("Test null values for substring with general elements")]
         [DataRow(null)]
@@ -43,7 +43,7 @@ namespace SubstringTest
 
         #region Letters
 
-        [TestMethod]
+        [DataTestMethod]
         [TestCategory("Letters")]
         [Description("Test not null values for substring with letters")]
         [DataRow("abc1 23!@#", "abc")]
@@ -65,7 +65,7 @@ namespace SubstringTest
             Assert.AreEqual(expectedOutput, receivedOutput);
         }
 
-        [TestMethod]
+        [DataTestMethod]
         [TestCategory("Letters")]
         [Description("Test null values for substring with letters")]
         [DataRow(null)]
@@ -83,7 +83,7 @@ namespace SubstringTest
 
         #region Digits
 
-        [TestMethod]
+        [DataTestMethod]
         [TestCategory("Digits")]
         [Description("Test not null values for substring with digits")]
         [DataRow("abc1 23!@#", "23")]
@@ -104,7 +104,7 @@ namespace SubstringTest
             Assert.AreEqual(expectedOutput, receivedOutput);
         }
 
-        [TestMethod]
+        [DataTestMethod]
         [TestCategory("Digits")]
         [Description("Test null values for substring with digits")]
         [DataRow(null)]
