@@ -18,22 +18,28 @@
         {
             string substr = "", answ = "";
 
-            if (string.IsNullOrEmpty(inputWords[0]))
+            if(string.IsNullOrEmpty(inputWords[0]))
+            {
                 return "Null string";
+            }
 
             foreach (var word in inputWords)
             {
                 for (var i = 0; i < word.Length; i++)
                 {
                     if (!substr.Contains(word[i]))
+                    {
                         substr += word[i];
+                    }
                     else
+                    {
                         substr = word[i].ToString();
-
+                    }
                     if (answ.Length < substr.Length)
+                    {
                         answ = substr;
+                    }
                 }
-
                 substr = "";
             }
 
